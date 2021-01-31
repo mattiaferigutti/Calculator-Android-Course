@@ -9,6 +9,10 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     private var currentNumber = 0f
+    private var oldNumber = 0f
+    private var operation = ""
+    private var previousOperation = ""
+    private var isNewOperation = false
     private var numberInString = ""
         get() = numberText?.text.toString()
         set(value) {
@@ -22,6 +26,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onItemClick(view: View) {
+        if (isNewOperation) {
+            oldNumber = currentNumber
+            numberInString = ""
+        }
+        isNewOperation = false
+
         when (view.id) {
             R.id.button0 -> {
                 setNumber(0)
@@ -54,16 +64,24 @@ class MainActivity : AppCompatActivity() {
                 setNumber(9)
             }
             R.id.addButton -> {
-
+                operation = "+"
+                total()
+                previousOperation = "+"
             }
             R.id.minusButton -> {
-
+                operation = "-"
+                total()
+                previousOperation = "-"
             }
             R.id.multiplyButton -> {
-
+                operation = "*"
+                total()
+                previousOperation = "*"
             }
             R.id.divideButton -> {
-
+                operation = "/"
+                total()
+                previousOperation = "/"
             }
             R.id.pointButton -> {
 
@@ -82,6 +100,33 @@ class MainActivity : AppCompatActivity() {
         }
 
         currentNumber = numberInString.toFloat()
+    }
+
+    private fun total() {
+        if (oldNumber != 0f && currentNumber != 0f) {
+            makeOperations(previousOperation)
+        }
+        isNewOperation = true
+    }
+
+    private fun makeOperations(operation: String) {
+        var finalResult = 0f
+        when (operation) {
+            "+" -> {
+                finalResult = oldNumber + currentNumber
+            }
+            "-" -> {
+                finalResult = oldNumber - currentNumber
+            }
+            "*" -> {
+                finalResult = oldNumber * currentNumber
+            }
+            "/" -> {
+                finalResult = oldNumber / currentNumber
+            }
+        }
+        currentNumber = finalResult
+        numberInString = finalResult.toString()
     }
 
 }
