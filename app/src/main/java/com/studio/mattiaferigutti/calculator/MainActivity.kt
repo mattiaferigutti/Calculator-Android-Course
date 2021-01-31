@@ -84,12 +84,38 @@ class MainActivity : AppCompatActivity() {
                 previousOperation = "/"
             }
             R.id.pointButton -> {
-
+                if (!numberInString.contains(".")) {
+                    numberInString = "$numberInString."
+                }
             }
             R.id.invertButton -> {
-
+                invert()
+            }
+            R.id.cancelButton -> {
+                cancel()
+            }
+            R.id.resultButton -> {
+                result()
             }
         }
+    }
+
+    private fun cancel() {
+        currentNumber = 0f
+        oldNumber = 0f
+        numberInString = "0"
+    }
+
+    private fun result() {
+        makeOperations(operation)
+        oldNumber = 0f
+    }
+
+    private fun invert() {
+        var number = numberInString.toFloat()
+        number *= -1 //number = number * -1
+        currentNumber = number
+        numberInString = number.toString()
     }
 
     private fun setNumber(number: Int) {
