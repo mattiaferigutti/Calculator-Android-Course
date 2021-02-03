@@ -63,25 +63,30 @@ class MainActivity : AppCompatActivity() {
             R.id.button9 -> {
                 setNumber(9)
             }
+            R.id.percentageButton -> {
+                operation = "%"
+                total()
+                previousOperation = operation
+            }
             R.id.addButton -> {
                 operation = "+"
                 total()
-                previousOperation = "+"
+                previousOperation = operation
             }
             R.id.minusButton -> {
                 operation = "-"
                 total()
-                previousOperation = "-"
+                previousOperation = operation
             }
             R.id.multiplyButton -> {
                 operation = "*"
                 total()
-                previousOperation = "*"
+                previousOperation = operation
             }
             R.id.divideButton -> {
                 operation = "/"
                 total()
-                previousOperation = "/"
+                previousOperation = operation
             }
             R.id.pointButton -> {
                 if (!numberInString.contains(".")) {
@@ -119,7 +124,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setNumber(number: Int) {
-        numberInString = if (numberInString == "0") {
+        numberInString = if (numberInString == "0" || numberInString == "0.0") {
             "$number"
         } else {
             "$numberInString$number"
@@ -135,6 +140,10 @@ class MainActivity : AppCompatActivity() {
         isNewOperation = true
     }
 
+    private fun calculatePercentage(fullNumber: Float, percentage: Float) =
+        //x : fullNumber = percentage : 100
+        (percentage * fullNumber) / 100
+
     private fun makeOperations(operation: String) {
         var finalResult = 0f
         when (operation) {
@@ -149,6 +158,9 @@ class MainActivity : AppCompatActivity() {
             }
             "/" -> {
                 finalResult = oldNumber / currentNumber
+            }
+            "%" -> {
+                finalResult = calculatePercentage(oldNumber, currentNumber)
             }
         }
         currentNumber = finalResult
