@@ -3,26 +3,29 @@ package com.studio.mattiaferigutti.calculator
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_main.*
+import com.studio.mattiaferigutti.calculator.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMainBinding
     private var currentNumber = 0f
     private var oldNumber = 0f
     private var operation = ""
     private var previousOperation = ""
     private var isNewOperation = false
     private var numberInString = ""
-        get() = numberText?.text.toString()
+        get() = binding.numberText.text.toString()
         set(value) {
-            numberText?.text = value
+            binding.numberText.text = value
             field = value
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+
+        setContentView(binding.root)
     }
 
     fun onItemClick(view: View) {
