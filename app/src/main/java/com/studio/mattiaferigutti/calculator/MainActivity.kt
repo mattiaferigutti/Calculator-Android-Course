@@ -127,7 +127,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setNumber(number: Int) {
-        numberInString = if (numberInString == "0" || numberInString == "0.0") {
+        numberInString = if (numberInString == "0") {
             "$number"
         } else {
             "$numberInString$number"
@@ -167,7 +167,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
         currentNumber = finalResult
-        numberInString = finalResult.toString()
+        numberInString = if (currentNumber % 1 == 0f) {
+            finalResult.toInt().toString()
+        } else {
+            finalResult.toString()
+        }
     }
-
 }
